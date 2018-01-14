@@ -14,7 +14,7 @@ Frontend done in TypeScript & React. No backend. Uses [Diffy](https://github.com
 
 ## Try it out!
 
-1. Have a webcam that has roughly similar FOV to a MacBook Pro 2017. (Sorry, threshold params not configurable yet.)
+1. Have a webcam. Best results can be achieved with one that has roughly similar FOV to a MacBook Pro 2017, but just try yours out. (Sorry, threshold params not configurable yet.)
 2. Navigate to [cornertime.github.io](https://cornertime.github.io) with a modern desktop browser (tested: Chrome 63 on Mac OS X).
 3. Allow webcam access. **No data will be sent** from your webcam to the Internet. All image processing is done locally in your browser.
 4. Set up the webcam so that it sees the corner where you'll be spending time. The current set of hard-coded settings works best at a distance of 2 to 3 meters.
