@@ -2,23 +2,34 @@ import * as React from 'react';
 import './App.css';
 import PunishmentStateMachine, { Listener } from './state';
 import { defaultPreset } from './models';
-import getMotion, { Motion } from './motion';
+import getSettings from './settings';
+import { create } from 'diffyjs';
+
+
+const MOTION_MAX = 255;
 
 
 class App extends React.Component {
   fsm = new PunishmentStateMachine();
+  settings = getSettings();
   listener: Listener;
-  motion: Motion;
+  diffy: {};
 
   state = {
     presetJSON: JSON.stringify(defaultPreset, null, 2),
-    motionMagnitude: 0,
+    magnitude: 0,
   };
 
   componentDidMount() {
     this.fsm.addListener(this.handleFsmUpdate);
-    this.motion = getMotion();
-    this.motion.onUpdate(this.handleMotionUpdate);
+
+    if (process.env.NODE_ENV !== 'test') {
+      this.diffy = create({
+        ...this.settings.diffy,
+        // magnitude seems to be 0–255 with 255 meaning "no movement", 0 meaning "chaos"
+        onFrame: matrix => this.handleMotionUpdate(matrix),
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -29,7 +40,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>{this.fsm.state} {this.state.motionMagnitude.toFixed(2)}</h2>
+          <h2>{this.fsm.state} {this.state.magnitude.toFixed(2)}</h2>
           <div className="App-diffy-container" />
         </div>
         <div className="App-intro">
@@ -67,6 +78,8 @@ class App extends React.Component {
 
   start = (event: React.MouseEvent<HTMLButtonElement>) => {
     this.fsm.preset = JSON.parse(this.state.presetJSON);
+
+    // TODO having to call reset before getReady is implementation leaking out from the fsm
     this.fsm.reset();
     this.fsm.getReady();
   }
@@ -79,8 +92,10 @@ class App extends React.Component {
     this.forceUpdate();
   }
 
-  handleMotionUpdate = (magnitude: number) => {
-    this.setState({ motionMagnitude: magnitude });
+  handleMotionUpdate = (matrix: number[][]) => {
+    const minValue = Math.min(...matrix.map(row => Math.min(...row)));
+    const magnitude = (MOTION_MAX - minValue) / MOTION_MAX;
+    this.setState({ magnitude });
     this.fsm.handleMotionUpdate(magnitude);
   }
 }
