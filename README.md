@@ -37,6 +37,10 @@ At least Node 8 & NPM 5.6 required.
 
 ## TODO
 
+* [ ] UI improvements
+    * [ ] Do away with the Diffy debug view and have a video canvas instead
+    * [ ] Provide a visual indicator for current motion detection status instead of a number
+    * [ ] Improve UI texts (now mostly a dump of the internal data structure)
 * [ ] Preset management
     * [ ] Edit the current preset via a UI
     * [ ] Export the current preset
