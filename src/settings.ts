@@ -62,7 +62,8 @@ const defaultSettings: Settings = {
         sensitivity: 0.2,
         threshold: 21,
         sourceDimensions: { w: 130, h: 100 },
-        debug: process.env.NODE_ENV !== 'production',
+        // debug: process.env.NODE_ENV !== 'production',
+        debug: true,
     },
 };
 

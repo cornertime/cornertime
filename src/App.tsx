@@ -48,6 +48,15 @@ class App extends React.Component {
             <pre>{JSON.stringify(this.fsm.report(), null, 2)}</pre>
           ) : null}
         </div>
+        <div className="App-footer">
+          No data will be transferred from your webcam to the Internet.
+          All image processing is done in your browser. <a
+            href="https://github.com/cornertime/cornertime"
+            target="_blank"
+          >
+            Source code
+          </a>
+        </div>
       </div>
     );
   }
