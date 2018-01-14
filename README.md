@@ -43,14 +43,15 @@ At least Node 8 & NPM 5.6 required.
     * [ ] Import a preset
     * [ ] Select a preset from a list of default presets
 * [ ] Settings view
-    * [ ] User name
+    * [ ] User name
     * [ ] Movement threshold
 * [ ] Report view
+    * [ ] View the report after a session
     * [ ] Export report
-    * [ ] Import and view a report
-* [ ] Encouragement functionality
+    * [ ] Import and view a report
+* [ ] Encouragement functionality
     * [ ] Randomly receive encouragement during session
-    * [ ] Make encouragement occur more towards the end of a session
+    * [ ] Make encouragement occur more towards the end of a session
 
 ## Notes
 
