@@ -52,6 +52,10 @@ At least Node 8 & NPM 5.6 required.
 * [ ] Encouragement functionality
     * [ ] Randomly receive encouragement during session
     * [ ] Make encouragement occur more towards the end of a session
+* [ ] Improvements under the hood
+    * [ ] Throttle webcam capture rate to 10–30 fps or even lower to conserve battery and cause less heat
+    * [ ] Consider rewriting the FSM with Redux or similar state management
+    * [ ] Separate speech, time & other side effects from the FSM
 
 ## Notes
 
