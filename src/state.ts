@@ -1,24 +1,33 @@
-import { Preset, Event, EventType, Report, Settings, State, defaultPreset } from './models';
+import { Preset, Event, EventType, State, defaultPreset } from './models';
 import { randomInteger } from './random';
 import getSpeech from './speech';
 import getSettings from './settings';
 
 
+export type Listener = () => void;
+
+const PREPARATION_SECONDS = 10;
+const COOLDOWN_SECONDS = 5;
+
+
 export default class PunishmentStateMachine {
-	preset: Preset = defaultPreset;
-	initialDuration: number = 0;
-	totalDuration: number = 0;
-	startedAt: string = ''; // ISO-8601 timestamp
+    preset: Preset = defaultPreset;
+    initialDuration: number = 0;
+    totalDuration: number = 0;
+    startedAt: string = ''; // ISO-8601 timestamp
     events: Event[] = [];
     state: State = 'waiting';
     speech = getSpeech();
     context = {};
     settings = getSettings();
     violations = 0;
+    listeners: Listener[] = [];
+    currentTime = 0;
+    cooldownEndTime = 0;
+    timer = 0;
 
-    public get currentTime() {
-        // XXX
-        return 0;
+    public get timeLeft() {
+        return this.totalDuration - this.currentTime;
     }
 
     /**
@@ -43,39 +52,43 @@ export default class PunishmentStateMachine {
         this.context = {}; // TODO
         this.settings = getSettings();
         this.violations = 0;
+        this.cooldownEndTime = 0;
+        this.currentTime = -PREPARATION_SECONDS;
     }
 
     // BEGIN STATE TRANSITION METHODS
 
     getReady() {
-        this.performStateTransition(['waiting'], 'preparation', 'getReady')
+        this.transition(['waiting'], 'preparation', 'getReady');
+        this.startClock();
     }
 
     start() {
-        this.performStateTransition(['preparation'], 'punishment', 'start');
+        this.transition(['preparation'], 'punishment', 'start');
     }
 
     scold() {
-        this.performStateTransition(['punishment'], 'cooldown', 'scold');
+        this.transition(['punishment'], 'cooldown', 'scold');
     }
 
     penalize() {
         const range = this.preset.penaltyRange;
         const penalty = randomInteger(range.minimum, range.maximum);
-        this.performStateTransition(['punishment'], 'cooldown', 'penalize', penalty);
+        this.transition(['punishment'], 'cooldown', 'penalize', penalty);
     }
 
     cooldownFinished() {
-        this.performStateTransition(['cooldown'], 'punishment');
+        this.transition(['cooldown'], 'punishment');
     }
 
     end() {
-        this.performStateTransition(['punishment', 'cooldown'], 'finished', 'end');
+        this.transition(['punishment', 'cooldown'], 'finished', 'end');
+        this.stopClock();
     }
 
     // END STATE TRANSITION METHODS
 
-    performStateTransition(fromStates: State[], toState: State, eventType?: EventType, adjustment: number = 0) {
+    transition(fromStates: State[], toState: State, eventType?: EventType, adjustment: number = 0) {
         if (fromStates.indexOf(this.state) < 0) {
             throw new TypeError(`cannot go to ${toState} from ${this.state}`);
         }
@@ -97,6 +110,23 @@ export default class PunishmentStateMachine {
         if (phrases.length > 0) {
             this.speech.speakRandomPhrase(phrases, this.context);
         }
+
+        this.updateListeners();
+    }
+
+    updateListeners() {
+        this.listeners.forEach(listener => listener());
+    }
+
+    addListener(listener: Listener) {
+        this.listeners.push(listener);
+    }
+
+    removeListener(listener: Listener) {
+        const idx = this.listeners.indexOf(listener);
+        if (idx >= 0) {
+            delete this.listeners[idx];
+        }
     }
 
     encourage() {
@@ -109,6 +139,8 @@ export default class PunishmentStateMachine {
             time: this.currentTime,
         });
         this.speech.speakRandomPhrase(this.preset.phrases.encourage, this.context);
+
+        this.updateListeners();
     }
 
     movementDetected() {
@@ -117,6 +149,9 @@ export default class PunishmentStateMachine {
         }
 
         let penaltyProbability = this.preset.penaltyProbabilities[this.violations];
+        this.violations += 1;
+        this.cooldownEndTime = this.currentTime + COOLDOWN_SECONDS;
+
         if (typeof penaltyProbability === 'undefined') {
             const lastIndex = this.preset.penaltyProbabilities.length - 1;
             penaltyProbability = this.preset.penaltyProbabilities[lastIndex];
@@ -127,7 +162,55 @@ export default class PunishmentStateMachine {
         } else {
             this.scold();
         }
+    }
 
-        this.violations += 1;
+    startClock() {
+        if (process.env.NODE_ENV === 'test') {
+            return;
+        }
+
+        this.timer = window.setInterval(() => this.tick(), 1000);
+    }
+
+    stopClock() {
+        if (process.env.NODE_ENV === 'test') {
+            return;
+        }
+
+        window.clearInterval(this.timer);
+    }
+
+    tick() {
+        this.currentTime += 1;
+
+        switch (this.state) {
+            case 'preparation':
+                if (this.currentTime >= 0) {
+                    this.start();
+                }
+                break;
+
+
+            case 'cooldown':
+                if (this.currentTime >= this.totalDuration) {
+                    this.end();
+                } else if (this.currentTime >= this.cooldownEndTime) {
+                    this.cooldownFinished();
+                }
+                break;
+
+            case 'punishment':
+                if (this.currentTime >= this.totalDuration) {
+                    this.end();
+                }
+                break;
+
+            case 'waiting':
+            case 'finished':
+            default:
+                throw TypeError(`Clock should not be running in ${this.state}`);
+        }
+
+        this.updateListeners();
     }
 }

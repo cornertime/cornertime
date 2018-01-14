@@ -4,7 +4,7 @@ import { Settings } from './models';
 const defaultSettings: Settings = {
     name: 'Anonymous',
     threshold: 0.1,
-}
+};
 
 
 export default function getSettings(): Settings {

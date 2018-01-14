@@ -1,8 +1,8 @@
 export interface Preset {
-	title: string;
-	durationRange: {
-		minimum: number; // inclusive (all times are seconds)
-		maximum: number; // exclusive
+    title: string;
+    durationRange: {
+        minimum: number; // inclusive (all times are seconds)
+        maximum: number; // exclusive
     };
     penaltyRange: {
         minimum: number;
@@ -20,7 +20,7 @@ export interface Preset {
     // TODO Introduce different kinds of encouragements for different parts?
     encouragementProbability: number;
 
-	phrases: Phrases;
+    phrases: Phrases;
 }
 
 
@@ -41,34 +41,34 @@ export const defaultPreset: Preset = {
     encouragementProbability: 0.05,
     phrases: {
         getReady: [
-            "You have been naughty. Get in the corner.",
+            `You have been naughty. Get in the corner.`,
         ],
         start: [
-            "You better not move. I'm starting your punishment now.",
+            `You better not move. I'm starting your punishment now.`,
         ],
         encourage: [
-            "Just a few more minutes.",
+            `Just a few more minutes.`,
         ],
         scold: [
-            "Do I see you moving?",
+            `Do I see you moving?`,
         ],
         penalize: [
-            "I warned you not to move. I'm adding some more minutes to the clock.",
+            `I warned you not to move. I'm adding some more minutes to the clock.`,
         ],
         end: [
-            "You can come out of the corner now."
+            `You can come out of the corner now.`
         ],
     }
 };
 
 
 export interface Phrases {
-	getReady: string[];
-	start: string[];
-	encourage: string[];
-	scold: string[];
-	penalize: string[];
-	end: string[];
+    getReady: string[];
+    start: string[];
+    encourage: string[];
+    scold: string[];
+    penalize: string[];
+    end: string[];
 }
 
 
@@ -78,18 +78,18 @@ export type EventType = 'getReady' | 'start' |  'scold' | 'encourage' | 'penaliz
 
 
 export interface Event {
-	eventType: EventType;
-	time: number;
-	adjustment: number;
+    eventType: EventType;
+    time: number;
+    adjustment: number;
 }
 
 
 export interface Report {
     name: string;
-	preset: Preset;
-	initialDuration: number;
-	totalDuration: number;
-	startedAt: string; // ISO-8601 timestamp
+    preset: Preset;
+    initialDuration: number;
+    totalDuration: number;
+    startedAt: string; // ISO-8601 timestamp
     events: Event[];
     violations: number; // equals the number of total scold and penalize events
 }

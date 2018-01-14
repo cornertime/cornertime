@@ -1,25 +1,18 @@
 import { randomElement } from './random';
 
 
-function getDefaultVoice() {
-    return (new SpeechSynthesisUtterance('Hello, World!')).voice;
-}
-
-
 export interface Speech {
-    voice: any;
     speak(phrase: string, context: object): void;
     speakRandomPhrase(phrases: string[], context: object): void;
 }
 
 
 export class BrowserSpeech implements Speech {
-    voice: SpeechSynthesisVoice = getDefaultVoice();
+    // TODO voice selection
 
     speak(phrase: string, context: object) {
         // TODO render template
         const utter = new SpeechSynthesisUtterance(phrase);
-        utter.voice = this.voice;
         speechSynthesis.speak(utter);
     }
 
@@ -31,7 +24,6 @@ export class BrowserSpeech implements Speech {
 
 
 export class MockSpeech {
-    voice: any = null;
     transcript: string[] = [];
 
     reset() {

@@ -14,7 +14,10 @@ describe('PunishmentStateMachine', () => {
 
         it('(any other state) complains loudly', () => {
             allStates.forEach((state) => {
-                if (state === 'waiting') return;
+                if (state === 'waiting') {
+                    return;
+                }
+
                 const sm = new PunishmentStateMachine(state);
                 assert.throws(() => { sm.getReady(); });
             });
@@ -33,7 +36,10 @@ describe('PunishmentStateMachine', () => {
 
         it('(any other state) complains loudly', () => {
             allStates.forEach((state) => {
-                if (state === 'preparation') return;
+                if (state === 'preparation') {
+                    return;
+                }
+
                 const sm = new PunishmentStateMachine(state);
                 assert.throws(() => { sm.start(); });
             });
@@ -113,7 +119,10 @@ describe('PunishmentStateMachine', () => {
 
         it('(any other state) complains loudly', () => {
             allStates.forEach((state) => {
-                if (state === 'punishment' || state == 'cooldown') return;
+                if (state === 'punishment' || state === 'cooldown') {
+                    return;
+                }
+
                 const sm = new PunishmentStateMachine(state);
                 assert.throws(() => { sm.end(); });
             });
@@ -159,6 +168,65 @@ describe('PunishmentStateMachine', () => {
                 sm.movementDetected();
                 assert.equal(sm.events.length, 0);
             });
-        })
-    })
+        });
+    });
+
+    describe('tick', () => {
+        it('(preparation) starts the punishment at t=0', () => {
+            const sm = new PunishmentStateMachine('preparation');
+
+            sm.tick();
+            assert.equal(sm.state, 'preparation');
+
+            sm.currentTime = 0 - 1;
+            sm.tick();
+            assert.equal(sm.state, 'punishment');
+        });
+
+        it('(punishment, cooldown) ends the punishment when the total time has been reached', () => {
+            const states: State[] = ['punishment', 'cooldown'];
+            states.forEach((initialState) => {
+                const sm = new PunishmentStateMachine(initialState);
+                sm.totalDuration = 300;
+                sm.cooldownEndTime = 310;
+
+                sm.currentTime = 290;
+                sm.tick();
+                assert.equal(sm.state, initialState);
+
+                sm.currentTime = sm.totalDuration - 1;
+                sm.tick();
+                assert.equal(sm.state, 'finished');
+            });
+        });
+
+        it('(cooldown) ends the cooldown when the cooldown end has been reached', () => {
+            const sm = new PunishmentStateMachine('cooldown');
+            sm.totalDuration = 300;
+            sm.cooldownEndTime = 290;
+
+            sm.currentTime = sm.cooldownEndTime - 1;
+            sm.tick();
+            assert.equal(sm.state, 'punishment');
+        });
+
+        it('(any other state) complains loudly', () => {
+            allStates.forEach((state) => {
+                if (['preparation', 'punishment', 'cooldown'].indexOf(state) >= 0) {
+                    return;
+                }
+
+                const sm = new PunishmentStateMachine(state);
+                assert.throws(() => sm.tick());
+            });
+        });
+    });
+
+    it('eventually finishes', () => {
+        const sm = new PunishmentStateMachine();
+        sm.getReady();
+        while (sm.state !== 'finished') {
+            sm.tick();
+        }
+    });
 });
