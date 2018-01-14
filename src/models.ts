@@ -86,7 +86,7 @@ export interface Event {
 
 export interface Report {
     name: string;
-    preset: Preset;
+    presetTitle: string;
     initialDuration: number;
     totalDuration: number;
     startedAt: string; // ISO-8601 timestamp

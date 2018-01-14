@@ -1,4 +1,4 @@
-import { Preset, Event, EventType, State, defaultPreset } from './models';
+import { Preset, Event, EventType, State, defaultPreset, Report } from './models';
 import { randomInteger } from './random';
 import getSpeech from './speech';
 import getSettings from './settings';
@@ -46,7 +46,7 @@ export default class PunishmentStateMachine {
             this.preset.durationRange.maximum,
         );
         this.totalDuration = this.initialDuration;
-        this.startedAt = (new Date()).toISOString();
+        this.startedAt = '';
         this.events = [];
         this.state = state;
         this.context = {}; // TODO
@@ -65,6 +65,7 @@ export default class PunishmentStateMachine {
 
     start() {
         this.transition(['preparation'], 'punishment', 'start');
+        this.startedAt = (new Date()).toISOString();
     }
 
     scold() {
@@ -212,5 +213,21 @@ export default class PunishmentStateMachine {
         }
 
         this.updateListeners();
+    }
+
+    report(): Report {
+        if (this.state !== 'finished') {
+            throw new TypeError(`report is not available in ${this.state}`);
+        }
+
+        return {
+            name: this.settings.name,
+            presetTitle: this.preset.title,
+            initialDuration: this.initialDuration,
+            totalDuration: this.totalDuration,
+            startedAt: this.startedAt,
+            events: this.events,
+            violations: this.violations,
+        };
     }
 }

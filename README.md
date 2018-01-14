@@ -7,3 +7,7 @@ At least Node 8 & NPM 5.6 required.
     npm install
     npm start
     npm test
+
+## TODO
+
+* [ ] Rewrite with Redux
