@@ -93,9 +93,3 @@ export interface Report {
     events: Event[];
     violations: number; // equals the number of total scold and penalize events
 }
-
-
-export interface Settings {
-    threshold: number; // between 0.0–1.0
-    name: string;
-}

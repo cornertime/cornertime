@@ -2,29 +2,35 @@ import * as React from 'react';
 import './App.css';
 import PunishmentStateMachine, { Listener } from './state';
 import { defaultPreset } from './models';
+import getMotion, { Motion } from './motion';
 
 
 class App extends React.Component {
   fsm = new PunishmentStateMachine();
   listener: Listener;
+  motion: Motion;
 
   state = {
     presetJSON: JSON.stringify(defaultPreset, null, 2),
+    motionMagnitude: 0,
   };
 
   componentDidMount() {
-    this.fsm.addListener(this.fsmUpdated);
+    this.fsm.addListener(this.handleFsmUpdate);
+    this.motion = getMotion();
+    this.motion.onUpdate(this.handleMotionUpdate);
   }
 
   componentWillUnmount() {
-    this.fsm.removeListener(this.fsmUpdated);
+    this.fsm.removeListener(this.handleFsmUpdate);
   }
 
   render() {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>{this.fsm.state}</h2>
+          <h2>{this.fsm.state} {this.state.motionMagnitude.toFixed(2)}</h2>
+          <div className="App-diffy-container" />
         </div>
         <div className="App-intro">
           <p>
@@ -60,8 +66,13 @@ class App extends React.Component {
     this.fsm.movementDetected();
   }
 
-  fsmUpdated = () => {
+  handleFsmUpdate = () => {
     this.forceUpdate();
+  }
+
+  handleMotionUpdate = (magnitude: number) => {
+    this.setState({ motionMagnitude: magnitude });
+    this.fsm.handleMotionUpdate(magnitude);
   }
 }
 

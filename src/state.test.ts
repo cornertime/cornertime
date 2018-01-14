@@ -183,6 +183,15 @@ describe('PunishmentStateMachine', () => {
             assert.equal(sm.state, 'punishment');
         });
 
+        it('(punishment) if movement threshold has been exceeded, punishes or scolds', () => {
+            const sm = new PunishmentStateMachine('punishment');
+            sm.currentTime = 0;
+            sm.handleMotionUpdate(200);
+            sm.tick();
+
+            assert.equal(sm.state, 'cooldown');
+        });
+
         it('(punishment, cooldown) ends the punishment when the total time has been reached', () => {
             const states: State[] = ['punishment', 'cooldown'];
             states.forEach((initialState) => {

@@ -25,6 +25,16 @@ export default class PunishmentStateMachine {
     currentTime = 0;
     cooldownEndTime = 0;
     timer = 0;
+    currentTickMotionSum = 0;
+    currentTickMotionCount = 0;
+
+    public get currentTickMotionAverage() {
+        if (this.currentTickMotionCount === 0) {
+            return 0;
+        } else {
+            return this.currentTickMotionSum / this.currentTickMotionCount;
+        }
+    }
 
     public get timeLeft() {
         return this.totalDuration - this.currentTime;
@@ -54,6 +64,9 @@ export default class PunishmentStateMachine {
         this.violations = 0;
         this.cooldownEndTime = 0;
         this.currentTime = -PREPARATION_SECONDS;
+        this.currentTickMotionSum = 0;
+        this.currentTickMotionCount = 0;
+
     }
 
     // BEGIN STATE TRANSITION METHODS
@@ -181,6 +194,15 @@ export default class PunishmentStateMachine {
         window.clearInterval(this.timer);
     }
 
+    handleMotionUpdate(magnitude: number) {
+        if (this.state !== 'punishment') {
+            return;
+        }
+
+        this.currentTickMotionSum += magnitude;
+        this.currentTickMotionCount += 1;
+    }
+
     tick() {
         this.currentTime += 1;
 
@@ -203,6 +225,9 @@ export default class PunishmentStateMachine {
             case 'punishment':
                 if (this.currentTime >= this.totalDuration) {
                     this.end();
+                } else if (this.currentTickMotionSum > this.settings.threshold) {
+
+                    this.movementDetected();
                 }
                 break;
 
@@ -211,6 +236,8 @@ export default class PunishmentStateMachine {
             default:
                 throw TypeError(`Clock should not be running in ${this.state}`);
         }
+
+        this.currentTickMotionSum = 0;
 
         this.updateListeners();
     }
