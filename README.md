@@ -1,4 +1,4 @@
-# Improved Virtual Corner Time
+# Corner Time
 
 This is an application that tells you, using voice instructions, go to a corner and stay there without moving until a certain time has passed.
 
