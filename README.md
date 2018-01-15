@@ -41,6 +41,9 @@ At least Node 8 & NPM 5.6 required.
     * [ ] Do away with the Diffy debug view and have a video canvas instead
     * [ ] Provide a visual indicator for current motion detection status instead of a number
     * [ ] Improve UI texts (now mostly a dump of the internal data structure)
+* [ ] Core functionality improvements
+    * [ ] Add a configurable audible tick to tell the user the application is still working
+    * [ ] Prevent computer from going to sleep while in session
 * [ ] Preset management
     * [ ] Edit the current preset via a UI
     * [ ] Export the current preset
@@ -60,6 +63,7 @@ At least Node 8 & NPM 5.6 required.
     * [ ] Throttle webcam capture rate to 10–30 fps or even lower to conserve battery and cause less heat
     * [ ] Consider rewriting the FSM with Redux or similar state management
     * [ ] Separate speech, time & other side effects from the FSM
+    * [ ] Make sure there is no memory leaks
 
 ## Notes
 
