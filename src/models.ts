@@ -41,7 +41,7 @@ export const defaultPreset: Preset = {
     encouragementProbability: 0.05,
     phrases: {
         getReady: [
-            `You have been naughty. Get in the corner.`,
+            `You have been naughty. Get in the corner, facing the wall.`,
         ],
         start: [
             `You better not move. I'm starting your punishment now.`,
@@ -53,7 +53,7 @@ export const defaultPreset: Preset = {
             `Do I see you moving?`,
         ],
         penalize: [
-            `I warned you not to move. I'm adding some more minutes to the clock.`,
+            `I warned you not to move. I'm adding some more minutes in the clock.`,
         ],
         end: [
             `You can come out of the corner now.`

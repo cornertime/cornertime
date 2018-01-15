@@ -39,24 +39,28 @@ describe('encodeBase64 and decodeBase64', () => {
 
 // single field only to avoid failures with key ordering
 const knownObject = {a: 5};
-const knownSerialized = '-----BEGIN CORNERTIME REPORT-----\neyJhIjo1fQ==\n-----END CORNERTIME REPORT-----';
+const knownSerialized = `-----BEGIN CORNERTIME PUNISHMENT REPORT-----
+eyJhIjo1fQ==
+-----END CORNERTIME PUNISHMENT REPORT-----`;
+const headerMissing = 'eyJhIjo1fQ==\n-----END CORNERTIME PUNISHMENT REPORT-----';
+const footerMissing = '-----BEGIN CORNERTIME PUNISHMENT REPORT-----\neyJhIjo1fQ==';
 
 
 describe('serialize', () => {
     it('serializes a known input into a known output', () => {
-        assert.equal(serialize(knownObject, 'REPORT'), knownSerialized);
+        assert.equal(serialize(knownObject, 'PUNISHMENT REPORT'), knownSerialized);
     });
 });
 
 
 describe('deserialize', () => {
     it('deserializes a known input into a known output', () => {
-        assert.deepEqual(deserialize(knownSerialized, 'REPORT'), knownObject);
+        assert.deepEqual(deserialize(knownSerialized, 'PUNISHMENT REPORT'), knownObject);
     });
 
     it('complains loudly if header/footer are missing', () => {
-        assert.throws(() => deserialize('eyJhIjo1fQ==\n-----END CORNERTIME REPORT-----', 'REPORT'));
-        assert.throws(() => deserialize('-----BEGIN CORNERTIME REPORT-----\neyJhIjo1fQ==', 'REPORT'));
+        assert.throws(() => deserialize(headerMissing, 'PUNISHMENT REPORT'));
+        assert.throws(() => deserialize(footerMissing, 'PUNISHMENT REPORT'));
     });
 });
 

@@ -2,26 +2,26 @@ import { Report, Preset } from './models';
 
 
 const LINE_LENGTH = 76;
-type Kind = 'REPORT' | 'PRESET';
+type Kind = 'PUNISHMENT REPORT' | 'CUSTOM PUNISHMENT';
 
 
 // Public API of this module
 
 export function serializeReport(report: Report): string {
-    return serialize(report, 'REPORT');
+    return serialize(report, 'PUNISHMENT REPORT');
 }
 
 export function serializePreset(preset: Preset): string {
-    return serialize(preset, 'PRESET');
+    return serialize(preset, 'CUSTOM PUNISHMENT');
 }
 
 
 export function deserializeReport(data: string): Report {
-    return deserialize(data, 'REPORT');
+    return deserialize(data, 'PUNISHMENT REPORT');
 }
 
 export function deserializePreset(data: string): Preset {
-    return deserialize(data, 'PRESET');
+    return deserialize(data, 'CUSTOM PUNISHMENT');
 }
 
 // The rest are exported only for testing
