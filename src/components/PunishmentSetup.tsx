@@ -71,7 +71,11 @@ export default class WelcomeScreen extends React.Component<PunishmentSetupProps,
     }
 
     getSerializedPreset = () => {
-        return serializePreset(this.loadPreset());
+        try {
+            return serializePreset(this.loadPreset());
+        } catch (e) {
+            return e.message;
+        }
     }
 
     onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
