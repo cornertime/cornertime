@@ -46,8 +46,8 @@ At least Node 8 & NPM 5.6 required.
     * [ ] Prevent computer from going to sleep while in session
 * [ ] Preset management
     * [ ] Edit the current preset via a UI
-    * [ ] Export the current preset
-    * [ ] Import a preset
+    * [X] Export the current preset
+    * [X] Import a preset – *currently by pasting in the same field as the JSON. Rethink when we have the preset editor UI*
     * [ ] Select a preset from a list of default presets
 * [ ] Settings view
     * [ ] User name
@@ -65,15 +65,17 @@ At least Node 8 & NPM 5.6 required.
     * [ ] Separate speech, time & other side effects from the FSM
     * [ ] Make sure there is no memory leaks
 
-## Notes
+## Import/export format
 
-### Preset import/export
+While sharing presets and reports via links would be preferred, I have no intention to implement any kind of a backend, so they need to be self-contained.
 
-While sharing presets via links would be preferred, I have no intention to implement any kind of a backend, so presets need to be self-contained.
+Someone receiving a preset should not know the parameters contained within, so plain JSON is not acceptable. Fixed-width lines are easier to copy & paste.
 
-Someone receiving a preset should not know the parameters contained within, so plain JSON is not applicable. Fixed-width lines are easier to copy & paste.
+To this end, we use base64 encoded JSON documents with a header and footer to identify the documents and make them easier to copy & paste.
 
-Perhaps use base64 encoded JSON documents for this? Perhaps add a header and a footer to show the user where to copy & paste?
+Examples follow.
+
+### Presets
 
     -----BEGIN CORNERTIME PRESET------
     eyJ0aXRsZSI6IkRlZmF1bHQiLCJkdXJhdGlvblJhbmdlIjp7Im1pbmltdW0iOjYwMCwibWF4aW11
@@ -87,11 +89,9 @@ Perhaps use base64 encoded JSON documents for this? Perhaps add a header and a f
     bG9jay4iXSwiZW5kIjpbIllvdSBjYW4gY29tZSBvdXQgb2YgdGhlIGNvcm5lciBub3cuIl19fQo=
     ------END CORNERTIME PRESET------
 
-### Report export
+### Reports
 
-Most points above apply to reports as well.
-
-No attempt is made at making forgery harder. It is trivially easy to cheat by covering the webcam anyway.
+No attempt is made to make forging reports harder. It is trivially easy to cheat by covering the webcam anyway.
 
     -----BEGIN CORNERTIME REPORT-----
     eyJuYW1lIjoiQW5vbnltb3VzIiwicHJlc2V0VGl0bGUiOiJEZWZhdWx0IiwiaW5pdGlhbER1cmF0

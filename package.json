@@ -19,6 +19,7 @@
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "deploy": "bash deploy.sh"
+    "deploy": "bash deploy.sh",
+    "decode": "ts-node -P ./tsconfig.test.json src/scripts/decode.ts"
   }
 }
