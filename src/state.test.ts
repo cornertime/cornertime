@@ -197,9 +197,9 @@ describe('PunishmentStateMachine', () => {
             states.forEach((initialState) => {
                 const sm = new PunishmentStateMachine(initialState);
                 sm.totalDuration = 300;
-                sm.cooldownEndTime = 310;
+                sm.cooldownEndTime = sm.totalDuration + 10;
 
-                sm.currentTime = 290;
+                sm.currentTime = sm.totalDuration - 10;
                 sm.tick();
                 assert.equal(sm.state, initialState);
 
@@ -212,7 +212,7 @@ describe('PunishmentStateMachine', () => {
         it('(cooldown) ends the cooldown when the cooldown end has been reached', () => {
             const sm = new PunishmentStateMachine('cooldown');
             sm.totalDuration = 300;
-            sm.cooldownEndTime = 290;
+            sm.cooldownEndTime = sm.totalDuration - 10;
 
             sm.currentTime = sm.cooldownEndTime - 1;
             sm.tick();
@@ -231,7 +231,7 @@ describe('PunishmentStateMachine', () => {
         });
     });
 
-    it('eventually finishes', () => {
+    it('eventually finishes with the default preset', () => {
         const sm = new PunishmentStateMachine();
         sm.getReady();
         while (sm.state !== 'finished') {

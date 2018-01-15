@@ -30,10 +30,10 @@ export default class WelcomeScreen extends React.Component<WelcomeScreenProps, {
                     </small></p>
                     <p className="text-center">
                         <button className="btn btn-link" onClick={this.onCustom}>
-                            Set up a custom punishment
+                            Set up a Custom Punishment
                         </button>
                         <button className="btn btn-link" onClick={this.onCustom}>
-                            I have a custom punishment
+                            I have a Custom Punishment
                         </button>
                     </p>
                 </div>

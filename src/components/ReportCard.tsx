@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Report, Event } from '../models';
 import { formatDuration } from '../time';
+import { serializeReport } from '../serialization';
 
 
 function formatEventMessage(event: Event) {
@@ -39,59 +40,78 @@ export default class ReportCard extends React.Component<ReportCardProps, {}> {
         const report = this.props.report;
 
         return (
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <strong>Punishment report</strong>
+            <div className="container my-4">
+                <div className="jumbotron">
+                    <h1 className="display-3">Your punishment is over.</h1>
+                    <p className="lead">
+                        I hope you have learned your lesson. If not, I'll be seeing you again!
+                    </p>
+                    <a href="" className="btn btn-primary btn-block btn-lg">
+                        I did not Learn My Lesson! I need another punishment.
+                    </a>
                 </div>
-                <table className="table table-striped">
+
+                <h2 className="my-3">Punishment report</h2>
+
+                <table className="table">
                     <tbody>
                         <tr>
-                            <th>Name:</th>
+                            <td>Name:</td>
                             <td>{report.name}</td>
                         </tr>
 
                         <tr>
-                            <th>Preset:</th>
+                            <td>Preset:</td>
                             <td>{report.presetTitle}</td>
                         </tr>
 
                         <tr>
-                            <th>Started at:</th>
+                            <td>Started at:</td>
                             <td>{report.startedAt}</td>
                         </tr>
 
                         <tr>
-                            <th>Initial duration:</th>
+                            <td>Initial duration:</td>
                             <td>{formatDuration(report.initialDuration)}</td>
                         </tr>
 
                         <tr>
-                            <th>Total duration:</th>
+                            <td>Total duration:</td>
                             <td>{formatDuration(report.totalDuration)}</td>
                         </tr>
 
                         <tr>
-                            <th>Number of violations:</th>
+                            <td>Number of movement violations:</td>
                             <td>{report.violations}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Events</th>
-                            <td>
-                                <table className="table table-bordered table-striped">
-                                    <tbody>
-                                        {report.events.map(event => (
-                                            <tr key={event.time}>
-                                                <td className="text-right">{formatDuration(event.time)}</td>
-                                                <td>{formatEventMessage(event)}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
+
+                <table className="table my-4">
+                    <thead>
+                        <tr>
+                            <th className="text-right">Time</th>
+                            <th>Event</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {report.events.filter(event =>
+                            event.eventType !== 'getReady' && event.eventType !== 'start'
+                        ).map(event => (
+                            <tr key={event.time}>
+                                <td className="text-right">{formatDuration(event.time)}</td>
+                                <td>{formatEventMessage(event)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                <p className="my-4"><small>
+                    If you were instructed by someone to take this punishment, you can give them this encoded
+                    report that contains the same information as you see above:
+                </small></p>
+
+                <pre>{serializeReport(report)}</pre>
             </div>
         );
     }
