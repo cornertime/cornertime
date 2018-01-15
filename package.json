@@ -4,6 +4,7 @@
   "license": "MIT",
   "dependencies": {
     "diffyjs": "^1.3.4",
+    "js-joda": "^1.6.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },

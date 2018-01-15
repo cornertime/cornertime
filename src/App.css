@@ -1,15 +1,15 @@
 .App-header {
-  background-color: #222;
-  padding: 20px;
-  color: white;
+    background-color: #222;
+    padding: 20px;
+    color: white;
 }
 
 .App-intro {
-  font-size: large;
-  padding: 20px;
+    font-size: large;
+    padding: 20px;
 }
 
 .App-footer {
-  font-size: small;
-  padding: 20px;
+    font-size: small;
+    padding: 20px;
 }
