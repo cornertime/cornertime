@@ -41,7 +41,7 @@ At least Node 8 & NPM 5.6 required.
 * [ ] UI improvements
     * [ ] Do away with the Diffy debug view and have a video canvas instead
     * [ ] Provide a visual indicator for current motion detection status instead of a number
-    * [ ] Improve UI texts (now mostly a dump of the internal data structure)
+    * [X] Improve UI texts (now mostly a dump of the internal data structure)
 * [ ] Core functionality improvements
     * [ ] Add a configurable audible tick to tell the user the application is still working
     * [ ] Prevent computer from going to sleep while in session
@@ -54,8 +54,8 @@ At least Node 8 & NPM 5.6 required.
     * [ ] User name
     * [ ] Movement threshold
 * [ ] Report view
-    * [ ] View the report after a session
-    * [ ] Export report
+    * [X] View the report after a session
+    * [X] Export report
     * [ ] Import and view a report
 * [ ] Encouragement functionality
     * [ ] Randomly receive encouragement during session
