@@ -26,7 +26,7 @@ At least Node 8 & NPM 5.6 required.
 
 ## TODO
 
-* [ ] Ask for the user's name and reason for punishment when starting and include them in the report
+* [ ] Ask for the user's name and reason for punishment when starting and include them in the report
 * [ ] Calibration view
     * [ ] See the picture from the webcam to help aiming
     * [ ] Provide a visual indicator for current level of motion
