@@ -36,6 +36,10 @@ export class MockSpeech {
     }
 
     speakRandomPhrase(phrases: string[], context: object) {
+        if (phrases.length === 0) {
+            return;
+        }
+
         const phrase = randomElement(phrases);
         this.speak(phrase, context);
     }

@@ -146,7 +146,10 @@ export default class PunishmentStateMachine {
     encourage() {
         if (this.state !== 'punishment') {
             throw new TypeError(`cannot encourage in state ${this.state}`);
+        } else if (this.preset.phrases.encourage.length === 0) {
+            return;
         }
+
         this.events.push({
             eventType: 'encourage',
             adjustment: 0,
@@ -226,8 +229,10 @@ export default class PunishmentStateMachine {
                 if (this.currentTime >= this.totalDuration) {
                     this.end();
                 } else if (this.currentTickMotionSum > this.settings.threshold) {
-
                     this.movementDetected();
+                } else if (this.currentTime % 60 === 0 && Math.random() < this.preset.encouragementProbability) {
+                    // On full minutes there is a chance of receiving encouragement.
+                    this.encourage();
                 }
                 break;
 

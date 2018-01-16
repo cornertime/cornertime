@@ -38,7 +38,7 @@ export const defaultPreset: Preset = {
     // first violation will trigger a scold, subsequent ones will trigger penalties
     penaltyProbabilities: [0.0, 1.0],
 
-    encouragementProbability: 0.05,
+    encouragementProbability: 0.1,
     phrases: {
         getReady: [
             `You have been naughty. Get in the corner, facing the wall.`,
@@ -47,7 +47,7 @@ export const defaultPreset: Preset = {
             `You better not move. I'm starting your punishment now.`,
         ],
         encourage: [
-            `Just a few more minutes.`,
+            `You're doing fine. Keep it up and this will be over in no time.`,
         ],
         scold: [
             `Do I see you moving?`,
