@@ -14,19 +14,7 @@ Frontend done in TypeScript & React. No backend. Uses [Diffy](https://github.com
 
 ## Try it out!
 
-1. Have a webcam. Best results can be achieved with one that has roughly similar FOV to a MacBook Pro 2017, but just try yours out. (Sorry, threshold params not configurable yet.)
-2. Make sure your computer won't lock itself or go to sleep during the session by setting proper power settings or using eg. `caffeinate -d`.
-2. Navigate to [cornertime.github.io](https://cornertime.github.io) with a modern desktop browser (tested: Chrome 63 on Mac OS X).
-3. Allow webcam access. **No data will be sent** from your webcam to the Internet. All image processing is done locally in your browser.
-4. Set up the webcam so that it sees the corner where you'll be spending time. The current set of hard-coded settings works best at a distance of 2 to 3 meters.
-5. Hide the "Diffy debug view" by clicking on its `-` button.
-6. Adjust the parameters in the text area below. You will find the `durationRange` and `penaltyRange` parameters especially interesting. All times are in seconds. There will be a configuration dialog at some point.
-7. Make sure you have sound on, with decent volume. Remember, there will be voice instructions.
-8. Hit Start.
-9. Follow the voice instructions: go to the corner and stand still.
-10. While standing still, the voice should be quiet. If you are getting scolded and penalized while standing still, try moving the webcam further away from the corner or moving to a more peaceful location.
-11. If you move enough, you should first get scolded, and at repeat offences, be notified of extra time being added to the clock.
-12. Once the duration of the session is reached, there will be another voice instruction informing you that you can exit the corner.
+See it live at [cornertime.github.io](https://cornertime.github.io) with a modern desktop browser (tested: Chrome 63 on Mac OS X).
 
 ## Getting started
 
