@@ -26,27 +26,21 @@ At least Node 8 & NPM 5.6 required.
 
 ## TODO
 
-* [ ] UI improvements
-    * [ ] Do away with the Diffy debug view and have a video canvas instead
-    * [ ] Provide a visual indicator for current motion detection status instead of a number
-    * [X] Improve UI texts (now mostly a dump of the internal data structure)
+* [ ] Ask for the user's name and reason for punishment when starting and include them in the report
+* [ ] Calibration view
+    * [ ] See the picture from the webcam to help aiming
+    * [ ] Provide a visual indicator for current level of motion
+    * [ ] Adjust the movement threshold
 * [ ] Core functionality improvements
     * [ ] Add a configurable audible tick to tell the user the application is still working
     * [ ] Prevent computer from going to sleep while in session
-* [ ] Preset management
+* [ ] Custom punishment management
     * [ ] Edit the current preset via a UI
     * [X] Export the current preset
     * [X] Import a preset – *currently by pasting in the same field as the JSON. Rethink when we have the preset editor UI*
     * [ ] Select a preset from a list of default presets
-* [ ] Settings view
-    * [ ] User name
-    * [ ] Movement threshold
-* [ ] Report view
-    * [X] View the report after a session
-    * [X] Export report
-    * [ ] Import and view a report
 * [ ] Encouragement functionality
-    * [ ] Randomly receive encouragement during session
+    * [X] Randomly receive encouragement during session
     * [ ] Make encouragement occur more towards the end of a session
 * [ ] Improvements under the hood
     * [ ] Throttle webcam capture rate to 10–30 fps or even lower to conserve battery and cause less heat
