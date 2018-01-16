@@ -5,13 +5,14 @@ import { create } from 'diffyjs';
 import WelcomeScreen from './WelcomeScreen';
 import PunishmentSetup from './PunishmentSetup';
 import ReportCard from './ReportCard';
+import ReportViewer from './ReportViewer';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { formatDuration } from '../time';
 
 
 const MOTION_MAX = 255;
-type SetupScreen = 'default' | 'custom';
+type SetupScreen = 'default' | 'custom' | 'report';
 
 interface AppState {
     setupScreen: SetupScreen;
@@ -57,9 +58,11 @@ class App extends React.Component<{}, AppState> {
             case 'waiting':
                 switch (this.state.setupScreen) {
                     case 'custom':
-                        return <PunishmentSetup fsm={fsm} />;
+                        return <PunishmentSetup fsm={fsm} onBack={this.returnToWelcomeScreen} />;
+                    case 'report':
+                        return <ReportViewer onBack={this.returnToWelcomeScreen} />;
                     default:
-                        return <WelcomeScreen fsm={fsm} onCustom={this.setUpCustom} />;
+                        return <WelcomeScreen fsm={fsm} onCustom={this.setUpCustom} onReport={this.viewReport} />;
                 }
 
             case 'preparation':
@@ -74,7 +77,7 @@ class App extends React.Component<{}, AppState> {
                 return <h1 className="display-1 my-5 text-center">{formatDuration(fsm.timeLeft)}</h1>;
 
             case 'finished':
-                return <ReportCard report={fsm.report()} />;
+                return <ReportCard report={fsm.report()} showMessage={true} />;
 
             default:
                 return null;
@@ -82,6 +85,8 @@ class App extends React.Component<{}, AppState> {
     }
 
     setUpCustom = () => this.setState({ setupScreen: 'custom' });
+    viewReport = () => this.setState({ setupScreen: 'report' });
+    returnToWelcomeScreen = () => this.setState({ setupScreen: 'default' });
 
     handleFsmUpdate = () => {
         this.forceUpdate();

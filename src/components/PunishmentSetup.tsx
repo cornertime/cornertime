@@ -6,6 +6,7 @@ import { defaultPreset } from '../models';
 
 interface PunishmentSetupProps {
     fsm: PunishmentStateMachine;
+    onBack(): void;
 }
 
 interface PunishmentSetupState {
@@ -21,11 +22,20 @@ export default class WelcomeScreen extends React.Component<PunishmentSetupProps,
     render() {
         return (
             <div className="container my-4">
-                <h2>Design or Use a Custom Punishment</h2>
+                <h2>Design or Carry Out a Custom Punishment</h2>
 
-                <button className="btn btn-primary btn-block btn-lg my-4" onClick={this.start}>
-                    Start the Custom Punishment Now
-                </button>
+                <div className="row my-3">
+                    <div className="col-md-10">
+                        <button className="btn btn-primary btn-block btn-lg" onClick={this.start}>
+                            Start the Custom Punishment Now
+                        </button>
+                    </div>
+                    <div className="col-md-2">
+                        <button className="btn btn-secondary btn-block btn-lg" onClick={this.props.onBack}>
+                            Back
+                        </button>
+                    </div>
+                </div>
 
                 <form className="form">
                     <div className="form-group">

@@ -5,6 +5,7 @@ import * as React from 'react';
 interface WelcomeScreenProps {
     fsm: PunishmentStateMachine;
     onCustom(): void;
+    onReport(): void;
 }
 
 
@@ -29,11 +30,11 @@ export default class WelcomeScreen extends React.Component<WelcomeScreenProps, {
                         Don't worry! Video from your webcam <strong>will not be sent</strong> over the Internet.
                     </small></p>
                     <p className="text-center">
-                        <button className="btn btn-link" onClick={this.onCustom}>
-                            Set up a Custom Punishment
+                        <button className="btn btn-link" onClick={this.props.onCustom}>
+                            Design or Carry Out a Custom Punishment
                         </button>
-                        <button className="btn btn-link" onClick={this.onCustom}>
-                            I have a Custom Punishment
+                        <button className="btn btn-link" onClick={this.props.onReport}>
+                            View a Punishment Report
                         </button>
                     </p>
                 </div>
@@ -46,5 +47,4 @@ export default class WelcomeScreen extends React.Component<WelcomeScreenProps, {
     }
 
     start = () => this.props.fsm.getReady();
-    onCustom = () => this.props.onCustom();
 }

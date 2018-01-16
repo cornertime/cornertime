@@ -32,6 +32,7 @@ function formatEventMessage(event: Event) {
 
 interface ReportCardProps {
     report: Report;
+    showMessage?: boolean;
 }
 
 
@@ -41,21 +42,23 @@ export default class ReportCard extends React.Component<ReportCardProps, {}> {
 
         return (
             <div className="container my-4">
-                <div className="jumbotron">
-                    <h1 className="display-3">Your punishment is over.</h1>
-                    <p className="lead">
-                        I hope you have learned your lesson. If not, I'll be seeing you again!
-                    </p>
-                    <a href="" className="btn btn-primary btn-block btn-lg">
-                        I did not Learn My Lesson! I need another punishment.
-                    </a>
-                </div>
+                {this.props.showMessage ? (
+                    <div className="jumbotron">
+                        <h1 className="display-3">Your punishment is over.</h1>
+                        <p className="lead">
+                            I hope you have learned your lesson. If not, I'll be seeing you again!
+                        </p>
+                        <a href="" className="btn btn-primary btn-block btn-lg">
+                            I did not Learn My Lesson! I need another punishment.
+                        </a>
+                    </div>
+                ) : null}
 
                 <h2 className="my-3">Punishment report</h2>
 
                 <table className="table">
                     <tbody>
-                        <tr>
+                        {/* <tr>
                             <td>Name:</td>
                             <td>{report.name}</td>
                         </tr>
@@ -63,7 +66,7 @@ export default class ReportCard extends React.Component<ReportCardProps, {}> {
                         <tr>
                             <td>Preset:</td>
                             <td>{report.presetTitle}</td>
-                        </tr>
+                        </tr> */}
 
                         <tr>
                             <td>Started at:</td>
@@ -106,12 +109,16 @@ export default class ReportCard extends React.Component<ReportCardProps, {}> {
                     </tbody>
                 </table>
 
-                <p className="my-4"><small>
-                    If you were instructed by someone to take this punishment, you can give them this encoded
-                    report that contains the same information as you see above:
-                </small></p>
+                {this.props.showMessage ? (
+                    <div>
+                        <p className="my-4"><small>
+                            If you were instructed by someone to take this punishment, you can give them this encoded
+                            report that contains the same information as you see above:
+                        </small></p>
 
-                <pre>{serializeReport(report)}</pre>
+                        <pre>{serializeReport(report)}</pre>
+                    </div>
+                ) : null}
             </div>
         );
     }
