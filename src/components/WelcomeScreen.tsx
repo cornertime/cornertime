@@ -5,6 +5,7 @@ import * as React from 'react';
 interface WelcomeScreenProps {
     fsm: PunishmentStateMachine;
     onCustom(): void;
+    onPreset(): void;
     onReport(): void;
 }
 
@@ -31,7 +32,10 @@ export default class WelcomeScreen extends React.Component<WelcomeScreenProps, {
                     </small></p>
                     <p className="text-center">
                         <button className="btn btn-link" onClick={this.props.onCustom}>
-                            Design or Carry Out a Custom Punishment
+                            Design a Custom Punishment
+                        </button>
+                        <button className="btn btn-link" onClick={this.props.onPreset}>
+                            Carry Out a Custom Punishment
                         </button>
                         <button className="btn btn-link" onClick={this.props.onReport}>
                             View a Punishment Report

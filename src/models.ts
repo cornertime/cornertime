@@ -25,7 +25,7 @@ export interface Preset {
 
 
 export const defaultPreset: Preset = {
-    title: 'Default',
+    title: 'Default Punishment',
     durationRange: {
         minimum: 600,
         maximum: 900,

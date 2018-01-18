@@ -4,6 +4,7 @@ import getSettings from '../settings';
 import { create } from 'diffyjs';
 import WelcomeScreen from './WelcomeScreen';
 import PunishmentSetup from './PunishmentSetup';
+import PunishmentLoader from './PunishmentLoader';
 import ReportCard from './ReportCard';
 import ReportViewer from './ReportViewer';
 
@@ -12,7 +13,7 @@ import { formatDuration } from '../time';
 
 
 const MOTION_MAX = 255;
-type SetupScreen = 'default' | 'custom' | 'report';
+type SetupScreen = 'default' | 'custom' | 'report' | 'preset';
 
 interface AppState {
     setupScreen: SetupScreen;
@@ -59,10 +60,19 @@ class App extends React.Component<{}, AppState> {
                 switch (this.state.setupScreen) {
                     case 'custom':
                         return <PunishmentSetup fsm={fsm} onBack={this.returnToWelcomeScreen} />;
+                    case 'preset':
+                        return <PunishmentLoader fsm={fsm} onBack={this.returnToWelcomeScreen} />;
                     case 'report':
                         return <ReportViewer onBack={this.returnToWelcomeScreen} />;
                     default:
-                        return <WelcomeScreen fsm={fsm} onCustom={this.setUpCustom} onReport={this.viewReport} />;
+                        return (
+                            <WelcomeScreen
+                                fsm={fsm}
+                                onCustom={this.setUpCustom}
+                                onPreset={this.loadPreset}
+                                onReport={this.viewReport}
+                            />
+                        );
                 }
 
             case 'preparation':
@@ -86,6 +96,7 @@ class App extends React.Component<{}, AppState> {
 
     setUpCustom = () => this.setState({ setupScreen: 'custom' });
     viewReport = () => this.setState({ setupScreen: 'report' });
+    loadPreset = () => this.setState({ setupScreen: 'preset' });
     returnToWelcomeScreen = () => this.setState({ setupScreen: 'default' });
 
     handleFsmUpdate = () => {
@@ -97,7 +108,6 @@ class App extends React.Component<{}, AppState> {
         // we turn it into a a single number 0.0–1.0 by taking busiest cell
         const minValue = Math.min(...matrix.map(row => Math.min(...row)));
         const magnitude = (MOTION_MAX - minValue) / MOTION_MAX;
-        // this.setState({ magnitude });
         this.fsm.handleMotionUpdate(magnitude);
     }
 }

@@ -66,7 +66,11 @@ export default class PunishmentStateMachine {
         this.currentTime = -PREPARATION_SECONDS;
         this.currentTickMotionSum = 0;
         this.currentTickMotionCount = 0;
+    }
 
+    loadPreset(preset: Preset) {
+        this.preset = preset;
+        this.reset();
     }
 
     // BEGIN STATE TRANSITION METHODS
