@@ -44,7 +44,7 @@ export default class WelcomeScreen extends React.Component<WelcomeScreenProps, {
                 </div>
 
                 <p className="text-muted text-center"><small>
-                    <a href="https://github.com/cornertime/cornertime" target="_blank">Source Code</a>
+                    <a href="https://github.com/cornertime/cornertime" target="_blank" rel="noopener noreferrer">Source Code</a>
                 </small></p>
             </div>
         );

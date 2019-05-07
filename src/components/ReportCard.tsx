@@ -48,7 +48,7 @@ export default class ReportCard extends React.Component<ReportCardProps, {}> {
                         <p className="lead">
                             I hope you have learned your lesson. If not, I'll be seeing you again!
                         </p>
-                        <a href="" className="btn btn-primary btn-block btn-lg">
+                        <a href="/" className="btn btn-primary btn-block btn-lg">
                             I did not Learn My Lesson! I need another punishment.
                         </a>
                     </div>

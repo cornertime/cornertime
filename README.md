@@ -18,7 +18,7 @@ See it live at [cornertime.github.io](https://cornertime.github.io) with a moder
 
 ## Getting started
 
-At least Node 8 & NPM 5.6 required.
+Node 11+ required.
 
     npm install
     npm start

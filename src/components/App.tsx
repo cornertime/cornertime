@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PunishmentStateMachine, { Listener } from '../state';
+import PunishmentStateMachine from '../state';
 import getSettings from '../settings';
 import { create } from 'diffyjs';
 import WelcomeScreen from './WelcomeScreen';
@@ -23,8 +23,7 @@ interface AppState {
 class App extends React.Component<{}, AppState> {
     fsm = new PunishmentStateMachine();
     settings = getSettings();
-    listener: Listener;
-    diffy: {};
+    diffy: any;
 
     state: AppState = {
         setupScreen: 'default',
