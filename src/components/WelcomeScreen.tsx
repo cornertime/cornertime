@@ -28,7 +28,7 @@ export default class WelcomeScreen extends React.Component<WelcomeScreenProps, {
                         standing. Make sure your computer will not lock or sleep (OS X: <code>caffeinate -d</code>).
                     </small></p>
                     <p className="text-muted text-center"><small>
-                        Don't worry! Video from your webcam <strong>will not be sent</strong> over the Internet.
+                        Don't worry! Video from your webcam <strong>will not be sent</strong> over the Internet.{' '}
                     </small></p>
                     <p className="text-center">
                         <button className="btn btn-link" onClick={this.props.onCustom}>
@@ -43,6 +43,9 @@ export default class WelcomeScreen extends React.Component<WelcomeScreenProps, {
                     </p>
                 </div>
 
+                <p className="text-muted text-center"><small>
+                    <strong>2019-05-07:</strong> The application works in modern browsers again!
+                </small></p>
                 <p className="text-muted text-center"><small>
                     <a href="https://github.com/cornertime/cornertime" target="_blank" rel="noopener noreferrer">Source Code</a>
                 </small></p>
