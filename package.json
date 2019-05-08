@@ -8,7 +8,7 @@
     "@types/react": "16.8.16",
     "@types/react-dom": "16.8.4",
     "bootstrap": "^4.3.1",
-    "diffyjs": "git+https://github.com/cornertime/diffyjs#fix-for-modern-browsers",
+    "diffyjs": "git+https://github.com/cornertime/diffyjs#cornertime-20190508",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0",
